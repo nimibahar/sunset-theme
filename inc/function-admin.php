@@ -22,13 +22,16 @@ add_action( 'admin_menu', 'sunset_add_admin_page' );
 function jen_sunset_custom_settings() {
     register_setting( 'jen-sunset-settings-group', 'first_name' );
     register_setting( 'jen-sunset-settings-group', 'last_name' );
+    register_setting( 'jen-sunset-settings-group', 'user_description' );
+
     register_setting( 'jen-sunset-settings-group', 'facebook_handler' );
     register_setting( 'jen-sunset-settings-group', 'linkedin_handler' );
     register_setting( 'jen-sunset-settings-group', 'twitter_handler', 'jen_sunset_sanitize_twitter_handler' );
 
     add_settings_section( 'jen-sunset-sidebar-options', 'Sidebar Options', 'jen_sidebar_options', 'jen_sunset' );
 
-    add_settings_field('side-bar-name','Full Name','jen_sunset_sidebar_name','jen_sunset', 'jen-sunset-sidebar-options' );
+    add_settings_field('sidebar-name','Full Name','jen_sunset_sidebar_name','jen_sunset', 'jen-sunset-sidebar-options' );
+    add_settings_field('sidebar-description','Description','jen_sunset_sidebar_description','jen_sunset', 'jen-sunset-sidebar-options' );
     add_settings_field('sidebar-facebook', 'Facebook handler', 'jen_sunset_sidebar_facebook','jen_sunset', 'jen-sunset-sidebar-options' );
     add_settings_field('sidebar-linkedin', 'LinkedIn handler', 'jen_sunset_sidebar_linkedin','jen_sunset', 'jen-sunset-sidebar-options' );
     add_settings_field('sidebar-linkedin', 'Twitter handler', 'jen_sunset_sidebar_twitter','jen_sunset', 'jen-sunset-sidebar-options' );
@@ -43,6 +46,11 @@ function jen_sunset_sidebar_name() {
   $lastName = esc_attr( get_option( 'last_name' ) );
   echo '<input type="text" name="first_name" value="'.$firstName.'" placeholder="First Name" />
   <input type="text" name="last_name" value="'.$lastName.'" placeholder="Last Name"  />';
+}
+
+function jen_sunset_sidebar_description() {
+    $description = esc_attr( get_option( 'user_description' ) );
+    echo '<input type="text" name="user_description" value="'.$description.'" placeholder="Description" /><p class="description">Write something smart</p>';
 }
 
 function jen_sunset_sidebar_facebook() {

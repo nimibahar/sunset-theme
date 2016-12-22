@@ -1,0 +1,37 @@
+/*
+  @package jen sunset theme
+*/
+.jen-sunset-general-form,
+.jen-sunset-sidebar-preview {
+    display: inline-block;
+    float: left;
+}
+
+.jen-sunset-sidebar-preview {
+    width: 280px;
+    background-color: #1F1F1F;
+    padding: 20px;
+    text-align: center;
+    margin-right: 20px;
+}
+
+.jen-sunset-sidebar-preview .jen-sunset-sidebar {
+    display: block;
+    text-align: center;
+}
+
+.jen-sunset-sidebar-preview .jen-sunset-sidebar h1.jen-sunset-username,
+.jen-sunset-sidebar-preview .jen-sunset-sidebar  h2.jen-sunset-description {
+    font-weight: 100;
+    color: #fff;
+}
+
+.jen-sunset-sidebar-preview .jen-sunset-sidebar h1.jen-sunset-username {
+    font-size: 24px;
+    margin: 0 0 20px;
+}
+
+.jen-sunset-sidebar-preview .jen-sunset-sidebar  h2.jen-sunset-description {
+    font-size: 13px;
+    margin: 0 0 20px;
+}
