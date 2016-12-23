@@ -1,4 +1,4 @@
-<h1>Jen Sunset Theme Options</h1>
+<h1>Jen Sunset Sidebar Options</h1>
 <?php settings_errors(); ?>
 
 <?php

@@ -10,7 +10,8 @@ function sunset_add_admin_page(){
     // Generate Jen-Sunset Admin Page with built in WP function:
     add_menu_page( 'Jen Sunset Theme Options', 'Jen Sunset', 'manage_options', 'jen_sunset', 'jen_sunset_theme_create_page', get_template_directory_uri() . '/img/jen-logo-mini.svg', 110 );
     // Generate Sunset Admin Sub Pages
-    add_submenu_page( 'jen_sunset', 'Jen Sunset Theme Options', 'General', 'manage_options', 'jen_sunset', 'jen_sunset_theme_create_page' );
+    add_submenu_page( 'jen_sunset', 'Jen Sunset Sidebar Options', 'Sidebar', 'manage_options', 'jen_sunset', 'jen_sunset_theme_create_page' );
+    add_submenu_page( 'jen_sunset', 'Jen Sunset Theme Options', 'Theme Options', 'manage_options', 'jen_sunset_theme', 'jen_sunset_theme_support_page' );
     add_submenu_page( 'jen_sunset', 'Jen Sunset CSS Options', 'Custom CSS', 'manage_options', 'jen_sunset_css', 'jen_sunset_theme_settings_page' );
     //Activate custom settings
     add_action( 'admin_init', 'jen_sunset_custom_settings' );
@@ -20,12 +21,11 @@ function sunset_add_admin_page(){
 add_action( 'admin_menu', 'sunset_add_admin_page' );
 
 function jen_sunset_custom_settings() {
+    //Sidebar options
     register_setting( 'jen-sunset-settings-group', 'profile_pic' );
-
     register_setting( 'jen-sunset-settings-group', 'first_name' );
     register_setting( 'jen-sunset-settings-group', 'last_name' );
     register_setting( 'jen-sunset-settings-group', 'user_description' );
-
     register_setting( 'jen-sunset-settings-group', 'facebook_handler' );
     register_setting( 'jen-sunset-settings-group', 'linkedin_handler' );
     register_setting( 'jen-sunset-settings-group', 'twitter_handler', 'jen_sunset_sanitize_twitter_handler' );
@@ -39,11 +39,39 @@ function jen_sunset_custom_settings() {
     add_settings_field('sidebar-linkedin', 'LinkedIn handler', 'jen_sunset_sidebar_linkedin','jen_sunset', 'jen-sunset-sidebar-options' );
     add_settings_field('sidebar-linkedin', 'Twitter handler', 'jen_sunset_sidebar_twitter','jen_sunset', 'jen-sunset-sidebar-options' );
 
+    //Theme Support Options
+    register_setting( 'jen-sunset-theme-support', 'post_formats', 'jen_sunset_post_formats_callback' );
+
+    add_settings_section( 'jen-sunset-theme-options', 'Theme Options', 'jen_sunset_theme_options', 'jen_sunset_theme' );
+
+    add_settings_field( 'post-fomats', 'Post Formats', 'jen_sunset_post_formats', 'jen_sunset_theme', 'jen-sunset-theme-options' );
 }
+
+//Post Formants Callback function
+function jen_sunset_post_formats_callback( $input ){
+    return $input;
+}
+
+function jen_sunset_theme_options() {
+    echo 'Activate and deactivate specific Theme Support Options';
+}
+
 function jen_sidebar_options() {
     echo 'Customize your Sidebar Information';
 }
 
+function jen_sunset_post_formats() {
+    $options = get_option( 'post_formats' );
+    $formats = array( 'aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat' );
+    $output = '';
+    foreach ( $formats as $format ) {
+        $checked = ( @$options[$format] == 1 ? 'checked' : '');
+        $output .= '<label><input type="checkbox" id="'.$format.'" name="post_formats['.$format.']" value="1" '.$checked.'>'.$format.'</label><br>';
+    }
+    echo $output;
+}
+
+// Sidebar Options Functions
 function jen_sunset_sidebar_profile_pic() {
     $profile_pic = esc_attr( get_option( 'profile_pic' ) );
     echo '<input type="button" class="button button-secondery" value="Upload Profile Picture" id="upload-button" />
@@ -86,10 +114,14 @@ function jen_sunset_sanitize_twitter_handler( $input ){
 	return $output;
 }
 
-
+//Template submenu functions
 function jen_sunset_theme_create_page() {
     //generation of our admin page
     require_once( get_template_directory() . '/inc/templates/sunset-admin.php');
+}
+
+function jen_sunset_theme_support_page() {
+    require_once( get_template_directory() . '/inc/templates/jensunset-theme-support.php' );
 }
 
 function jen_sunset_theme_settings_page() {
