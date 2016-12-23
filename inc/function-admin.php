@@ -20,6 +20,8 @@ function sunset_add_admin_page(){
 add_action( 'admin_menu', 'sunset_add_admin_page' );
 
 function jen_sunset_custom_settings() {
+    register_setting( 'jen-sunset-settings-group', 'profile_pic' );
+
     register_setting( 'jen-sunset-settings-group', 'first_name' );
     register_setting( 'jen-sunset-settings-group', 'last_name' );
     register_setting( 'jen-sunset-settings-group', 'user_description' );
@@ -30,6 +32,7 @@ function jen_sunset_custom_settings() {
 
     add_settings_section( 'jen-sunset-sidebar-options', 'Sidebar Options', 'jen_sidebar_options', 'jen_sunset' );
 
+    add_settings_field('sidebar-pic','Profile Picture','jen_sunset_sidebar_profile_pic','jen_sunset', 'jen-sunset-sidebar-options' );
     add_settings_field('sidebar-name','Full Name','jen_sunset_sidebar_name','jen_sunset', 'jen-sunset-sidebar-options' );
     add_settings_field('sidebar-description','Description','jen_sunset_sidebar_description','jen_sunset', 'jen-sunset-sidebar-options' );
     add_settings_field('sidebar-facebook', 'Facebook handler', 'jen_sunset_sidebar_facebook','jen_sunset', 'jen-sunset-sidebar-options' );
@@ -38,7 +41,13 @@ function jen_sunset_custom_settings() {
 
 }
 function jen_sidebar_options() {
-  echo 'Customize your Sidebar Information';
+    echo 'Customize your Sidebar Information';
+}
+
+function jen_sunset_sidebar_profile_pic() {
+    $profile_pic = esc_attr( get_option( 'profile_pic' ) );
+    echo '<input type="button" class="button button-secondery" value="Upload Profile Picture" id="upload-button" />
+    <input type="hidden" id="profile-pic" name="profile_pic" value="'.$profile_pic.'"  />';
 }
 
 function jen_sunset_sidebar_name() {

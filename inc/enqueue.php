@@ -16,6 +16,10 @@ function jen_sunset_load_admin_scripts( $hook ) {
     // Here we're including the file
     wp_enqueue_style('jen_sunset_admin');
 
+    //Enqueues all scripts, styles, settings, and templates necessary to use all media JavaScript APIs.
+    wp_enqueue_media();
+    wp_register_script( 'jen-sunset-admin-script', get_template_directory_uri() . '/js/jensunset.admin.js', array('jquery'), '0.0.1', true);
+    wp_enqueue_script('jen-sunset-admin-script');
 }
 
 add_action( 'admin_enqueue_scripts', 'jen_sunset_load_admin_scripts' );

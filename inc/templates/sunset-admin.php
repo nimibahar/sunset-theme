@@ -3,6 +3,7 @@
 
 <?php
 
+    $picture = esc_attr( get_option( 'profile_pic' ) );
     $firstName = esc_attr( get_option( 'first_name' ) );
     $lastName = esc_attr( get_option( 'last_name' ) );
     $fullName = $firstName . ' ' . $lastName;
@@ -11,6 +12,9 @@
 
 <div class="jen-sunset-sidebar-preview">
     <div class="jen-sunset-sidebar">
+          <div class="image-container">
+              <div id="profile-picture-preview" class="profile-picture" style="background-image: url(<?php print $picture; ?>);"></div>
+          </div>
           <h1 class="jen-sunset-username"><?php print $fullName ?></h1>
           <h2 class="jen-sunset-description"><?php print $description ?></h2>
           <div class="icons-wrapper">
