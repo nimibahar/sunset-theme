@@ -31,4 +31,14 @@ jQuery(document).ready( function($){
 
     });
 
+    $( '#remove-picture' ).on('click', function(e){
+        e.preventDefault();
+        var answer = confirm("Are you sure you want to remove your profile picture?");
+        if( answer == true ){
+            $('#profile-pic').val('');
+            $('.jen-sunset-general-form').submit();
+        }
+        return;
+    });
+
 });

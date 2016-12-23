@@ -26,5 +26,5 @@
 <form method="post" action="options.php" class="jen-sunset-general-form">
     <?php settings_fields( 'jen-sunset-settings-group' ); ?>
     <?php do_settings_sections( 'jen_sunset' ); ?>
-    <?php submit_button(); ?>
+    <?php submit_button( 'Save Changes', 'primary', 'btnSubmit' ); ?>
 </form>

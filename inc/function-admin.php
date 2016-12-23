@@ -40,16 +40,16 @@ function jen_sunset_custom_settings() {
     add_settings_field('sidebar-linkedin', 'Twitter handler', 'jen_sunset_sidebar_twitter','jen_sunset', 'jen-sunset-sidebar-options' );
 
     //Theme Support Options
-    register_setting( 'jen-sunset-theme-support', 'post_formats', 'jen_sunset_post_formats_callback' );
+    register_setting( 'jen-sunset-theme-support', 'post_formats' );
+    register_setting( 'jen-sunset-theme-support', 'custom_header' );
+    register_setting( 'jen-sunset-theme-support', 'custom_background' );
 
     add_settings_section( 'jen-sunset-theme-options', 'Theme Options', 'jen_sunset_theme_options', 'jen_sunset_theme' );
 
-    add_settings_field( 'post-fomats', 'Post Formats', 'jen_sunset_post_formats', 'jen_sunset_theme', 'jen-sunset-theme-options' );
-}
+    add_settings_field( 'post-formats', 'Post Formats', 'jen_sunset_post_formats', 'jen_sunset_theme', 'jen-sunset-theme-options' );
+    add_settings_field( 'custom-header', 'Custom Header', 'jen_sunset_custom_header', 'jen_sunset_theme', 'jen-sunset-theme-options' );
+    add_settings_field( 'custom-background', 'Custom Background', 'jen_sunset_custom_background', 'jen_sunset_theme', 'jen-sunset-theme-options' );
 
-//Post Formants Callback function
-function jen_sunset_post_formats_callback( $input ){
-    return $input;
 }
 
 function jen_sunset_theme_options() {
@@ -71,11 +71,33 @@ function jen_sunset_post_formats() {
     echo $output;
 }
 
+function jen_sunset_custom_header() {
+    $options = get_option( 'custom_header' );
+    $checked = ( @$options == 1 ? 'checked' : '');
+    echo '<label><input type="checkbox" id="custom_header" name="custom_header" value="1" '.$checked.' /> Activate the Custom Header</label>';
+
+}
+
+function jen_sunset_custom_background() {
+    $options = get_option( 'custom_background' );
+    $checked = ( @$options == 1 ? 'checked' : '');
+    echo '<label><input type="checkbox" id="custom_background" name="custom_background" value="1" '.$checked.' /> Activate the Custom Background</label>';
+
+}
+
 // Sidebar Options Functions
 function jen_sunset_sidebar_profile_pic() {
     $profile_pic = esc_attr( get_option( 'profile_pic' ) );
-    echo '<input type="button" class="button button-secondery" value="Upload Profile Picture" id="upload-button" />
-    <input type="hidden" id="profile-pic" name="profile_pic" value="'.$profile_pic.'"  />';
+    if ( empty($profile_pic) ){
+          echo
+              '<input type="button" class="button button-secondary" value="Upload Profile Picture" id="upload-button" />
+                <input type="hidden" id="profile-pic" name="profile_pic" value="'.$profile_pic.'"  />';
+    } else {
+          echo
+              '<input type="button" class="button button-secondary" value="Replace Profile Picture" id="upload-button" />
+                <input type="hidden" id="profile-pic" name="profile_pic" value="'.$profile_pic.'"  />
+                <input type="button" class="button button-secondery" value="Remove" id="remove-picture">';
+    }
 }
 
 function jen_sunset_sidebar_name() {
