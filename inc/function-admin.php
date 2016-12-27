@@ -12,7 +12,9 @@ function sunset_add_admin_page(){
     // Generate Sunset Admin Sub Pages
     add_submenu_page( 'jen_sunset', 'Jen Sunset Sidebar Options', 'Sidebar', 'manage_options', 'jen_sunset', 'jen_sunset_theme_create_page' );
     add_submenu_page( 'jen_sunset', 'Jen Sunset Theme Options', 'Theme Options', 'manage_options', 'jen_sunset_theme', 'jen_sunset_theme_support_page' );
+    add_submenu_page( 'jen_sunset', 'Jen Sunset Contact Form', 'Contact Form', 'manage_options', 'jen_sunset_theme_contact', 'jen_sunset_contact_form_page' );
     add_submenu_page( 'jen_sunset', 'Jen Sunset CSS Options', 'Custom CSS', 'manage_options', 'jen_sunset_css', 'jen_sunset_theme_settings_page' );
+
     //Activate custom settings
     add_action( 'admin_init', 'jen_sunset_custom_settings' );
 
@@ -50,10 +52,27 @@ function jen_sunset_custom_settings() {
     add_settings_field( 'custom-header', 'Custom Header', 'jen_sunset_custom_header', 'jen_sunset_theme', 'jen-sunset-theme-options' );
     add_settings_field( 'custom-background', 'Custom Background', 'jen_sunset_custom_background', 'jen_sunset_theme', 'jen-sunset-theme-options' );
 
+    //Contact Form Options
+    register_setting( 'jensunset-contact-options', 'activate_contact' );
+
+    add_settings_section( 'jen-sunset-contact-section', 'Contact Form', 'jen_sunset_contact_section', 'jen_sunset_theme_contact' );
+
+    add_settings_field( 'activate-form', 'Activate Contact Form', 'jensunset_activate_contact', 'jen_sunset_theme_contact','jen-sunset-contact-section' );
 }
 
 function jen_sunset_theme_options() {
     echo 'Activate and deactivate specific Theme Support Options';
+}
+
+function jen_sunset_contact_section() {
+    echo 'Activate and deactivate the Built-in Contact Form';
+}
+
+function jensunset_activate_contact() {
+    $options = get_option( 'activate_contact' );
+    $checked = ( @$options == 1 ? 'checked' : '');
+    echo '<label><input type="checkbox" id="activate_contact" name="activate_contact" value="1" '.$checked.' /> </label>';
+
 }
 
 function jen_sidebar_options() {
@@ -144,6 +163,10 @@ function jen_sunset_theme_create_page() {
 
 function jen_sunset_theme_support_page() {
     require_once( get_template_directory() . '/inc/templates/jensunset-theme-support.php' );
+}
+
+function jen_sunset_contact_form_page() {
+    require_once( get_template_directory() . '/inc/templates/jensunset-contact-form.php' );
 }
 
 function jen_sunset_theme_settings_page() {
