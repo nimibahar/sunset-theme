@@ -1,7 +1,7 @@
 <?php
 /*
 
-@package sunsettheme
+@package jen_sunset_theme
 
 	========================
 		THEME CUSTOM POST TYPES
@@ -48,6 +48,7 @@ function jen_sunset_set_jen_contact_columns( $columns ){
     $newColumns['title'] = 'Full Name';
     $newColumns['message'] = 'Message';
     $newColumns['email'] = 'Email';
+    $newColumns['phone'] = 'Contact Number';
     $newColumns['date'] = 'Date';
     return $newColumns;
 }
@@ -64,8 +65,9 @@ function jen_sunset_contact_custom_column( $column, $post_id ) {
           //email column
             $email = get_post_meta( $post_id, '_contact_email_value_key', true );
             // echo '<a href="mailto: ' .$email. '">' .$email. '</a>';
-            echo "<a href='mailto:" .$email. "'> $email </a>"; 
+            echo "<a href='mailto:" .$email. "'> $email </a>";
             break;
+
 
         default:
           # code...
@@ -78,7 +80,9 @@ function jen_sunset_contact_custom_column( $column, $post_id ) {
 
 function jen_sunset_contact_add_meta_box() {
     add_meta_box( 'contact_email', 'User Email', 'jen_sunset_contact_email_callback', 'jen-sunset-contact', 'side' );
+
 }
+
 
 function jen_sunset_contact_email_callback( $post ) {
     wp_nonce_field('jen_sunset_save_contact_email_data', 'jen_sunset_contact_email_meta_box_nonce');
@@ -88,6 +92,7 @@ function jen_sunset_contact_email_callback( $post ) {
     echo '<label for="jen_sunset_contact_email_field">User Email Address: </label>';
     echo '<input type="email" id="jen_sunset_contact_email_field" name="jen_sunset_contact_email_field" value="'. esc_attr( $value ) .'" size="25" />';
 }
+
 
 function jen_sunset_save_contact_email_data( $post_id ) {
 
@@ -114,7 +119,5 @@ function jen_sunset_save_contact_email_data( $post_id ) {
     $my_data = sanitize_text_field( $_POST['jen_sunset_contact_email_field'] );
 
     update_post_meta($post_id, '_contact_email_value_key', $my_data);
-
-
 
 }
